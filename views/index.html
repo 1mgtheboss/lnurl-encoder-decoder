@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>LNURL Encoder Decoder</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Raleway&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html {
+        background: #11998e; /* fallback for old browsers */
+        background: -webkit-linear-gradient(
+          to right,
+          #38ef7d,
+          #11998e
+        ); /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(
+          to right,
+          #38ef7d,
+          #11998e
+        ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        font-family: "Raleway", sans-serif;
+        color: #ffffff;
+      }
+
+      .header {
+        font-size: 450%;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        background: transparent;
+        border: 1px solid white;
+        outline: none;
+        color: #ffffff;
+      }
+
+      div#encode,
+      div#decode {
+        width: 99.5%;
+        border: 1px solid white;
+        cursor: pointer;
+        padding-left: 5px;
+      }
+
+      .header-1 {
+        font-size: 250%;
+      }
+
+      ::placeholder {
+        /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #ffffff;
+        opacity: 1; /* Firefox */
+        font-family: "Raleway", sans-serif;
+        padding-left: 5px;
+      }
+      :-ms-input-placeholder {
+        /* Internet Explorer 10-11 */
+        color: #ffffff;
+        font-family: "Raleway", sans-serif;
+        padding-left: 5px;
+      }
+      ::-ms-input-placeholder {
+        /* Microsoft Edge */
+        color: #ffffff;
+        font-family: "Raleway", sans-serif;
+        padding-left: 5px;
+      }
+
+      div#result {
+        width: 100%;
+        word-wrap: break-word;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div class="header">
+      LNURL Encoder Decoder
+    </div>
+    <br /><br />
+    <div class="header-1">Encoder:</div>
+    <br />
+    <input
+      type="text"
+      id="url"
+      placeholder="Please enter url to encode ..."
+    /><br /><br />
+
+    <div id="encode">Encode</div>
+    <br /><br />
+
+    <div class="header-1">Decoder:</div>
+    <br />
+    <input
+      type="text"
+      id="url-1"
+      placeholder="Please enter url to decode ..."
+    /><br /><br />
+
+    <div id="decode">Decode</div>
+    <br /><br />
+
+    <div id="result"></div>
+
+    <script>
+      $(document).ready(function() {
+        $("#encode").click(function() {
+          $.ajax({
+            url: "/encode",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ url: $("#url").val() }),
+            success: function(response) {
+              var encodedurl = { encodedUrl: response };
+              $("#result").html(JSON.stringify(encodedurl));
+            }
+          });
+        });
+        $("#decode").click(function() {
+          $.ajax({
+            url: "/decode",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ url: $("#url-1").val() }),
+            success: function(response) {
+              var decodedurl = { decodedUrl: response };
+              $("#result").html(JSON.stringify(decodedurl));
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
